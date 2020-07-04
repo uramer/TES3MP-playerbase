@@ -98,7 +98,7 @@ async function updateCSV(path) {
 
   for(let row of res.rows) {
     const date = row.date
-    const line = `${formatDate(date)},${row.servers},${row.players}\n`
+    const line = `${formatDate(date)},${Math.round(row.servers)},${Math.round(row.players)}\n`
     fs.writeSync(file, line)
   }
   fs.closeSync(file)

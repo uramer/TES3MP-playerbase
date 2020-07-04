@@ -83,7 +83,18 @@ async function updateCSV(path) {
       avg(players) as players,
       min(date) as date
     FROM population
-    WHERE date < now() - interval '7 days'
+    WHERE date < now() - interval '30 days'
+    GROUP BY EXTRACT(year from date), EXTRACT(week from date)
+  )
+  UNION
+  (
+    SELECT
+      avg(servers) as servers,
+      avg(players) as players,
+      min(date) as date
+    FROM population
+    WHERE date >= now() - interval '30 days'
+      AND date < now() - interval '7 days'
     GROUP BY DATE(date)
   )
   UNION

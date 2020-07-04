@@ -77,14 +77,23 @@ function formatDate(date) {
 }
 async function updateCSV(path) {
   const sql =
-  `SELECT t.servers, t.players, t.date FROM (
-    SELECT servers, players, date, ROW_NUMBER() OVER (ORDER BY date) AS rownum FROM population
-  ) AS t
-  WHERE t.rownum % $1 = 0
-    OR date >= now() - interval '3 days'
-  ORDER BY t.date
-  `
-  const res = await client.query(sql, [ SKIP_FACTOR ])
+  `(
+    SELECT
+      avg(servers) as servers,
+      avg(players) as players,
+      min(date) as date
+    FROM population
+    WHERE date < now() - interval '7 days'
+    GROUP BY DATE(date)
+  )
+  UNION
+  (
+    SELECT servers, players, date FROM population
+    WHERE date >= now() - interval '7 days'
+  )
+  ORDER BY date`
+
+  const res = await client.query(sql)
   const file = fs.openSync(path, 'w')
 
   for(let row of res.rows) {

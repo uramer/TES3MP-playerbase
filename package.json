@@ -1,0 +1,25 @@
+{
+  "name": "tes3mp-stats",
+  "version": "1.0.0",
+  "description": "Simple Python script for aggregating player and server status for the [TES3MP website](https://tes3mp.com)",
+  "main": "tes3mp-stats.js",
+  "scripts": {
+    "fetch": "node tes3mp-stats postgresql://postgres:postgres@localhost:5432/tes3mpstats fetch stats.csv",
+    "prepare": "node tes3mp-stats postgresql://postgres:postgres@localhost:5432/tes3mpstats prepare",
+    "import": "node tes3mp-stats postgresql://postgres:postgres@localhost:5432/tes3mpstats import old_stats.csv",
+    "clear": "node tes3mp-stats postgresql://postgres:postgres@localhost:5432/tes3mpstats clear"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GrimKriegor/TES3MP-stats.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GrimKriegor/TES3MP-stats/issues"
+  },
+  "homepage": "https://github.com/GrimKriegor/TES3MP-stats#readme",
+  "dependencies": {
+    "pg": "^8.2.1"
+  }
+}
